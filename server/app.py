@@ -8,11 +8,15 @@ from pydantic import BaseModel
 from typing import List, Dict, Any
 
 try:
-    from .triage_environment import MedTriageEnvironment, TASKS
-    from .models import TriageAction
-except ImportError:
-    from triage_environment import MedTriageEnvironment, TASKS
+    from server.triage_environment import MedTriageEnvironment, TASKS
     from models import TriageAction
+except ImportError:
+    try:
+        from .triage_environment import MedTriageEnvironment, TASKS
+        from .models import TriageAction
+    except ImportError:
+        from triage_environment import MedTriageEnvironment, TASKS
+        from models import TriageAction
 
 # Initialize the environment instance to be used by the app
 env_instance = MedTriageEnvironment()
