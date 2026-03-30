@@ -68,7 +68,7 @@ async def trigger_baseline():
         from inference import run_baseline
         
     # Execute actual baseline
-    scores = run_baseline(base_url="http://localhost:8002")
+    scores = run_baseline(base_url="http://localhost:7860")
     
     return {
         "status": "baseline_completed",
@@ -77,7 +77,7 @@ async def trigger_baseline():
 
 def main():
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8002)
+    uvicorn.run(app, host="0.0.0.0", port=7860)
 
 if __name__ == "__main__":
     main()
