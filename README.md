@@ -1,3 +1,15 @@
+---
+title: MedTriage OpenEnv
+emoji: 🏥
+sdk: docker
+pinned: false
+app_port: 8002
+tags:
+  - openenv
+  - healthcare
+  - ai-agents
+---
+
 # MedTriage OpenEnv
 
 A real-world medical triage simulation environment built for the Meta PyTorch OpenEnv Hackathon. This environment allows AI agents to learn how to categorize patient symptoms into appropriate clinical triage levels using the standard OpenEnv API.
@@ -72,12 +84,12 @@ Scores range from **0.0 to 1.0**:
    ```
 3. **Run Baseline**:
    ```bash
-   python baseline_inference.py
+   python inference.py
    ```
 
 ### Docker
 ```bash
-docker build -t med-triage-env:latest -f server/Dockerfile .
+docker build -t med-triage-env:latest .
 docker run -p 8002:8002 med-triage-env:latest
 ```
 

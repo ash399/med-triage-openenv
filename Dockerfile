@@ -17,6 +17,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy environment code
 COPY . /app/
 
+# Install the current package in editable mode to resolve local imports
+RUN pip install -e .
+
 # Set PYTHONPATH to include current directory for imports
 ENV PYTHONPATH="/app:$PYTHONPATH"
 

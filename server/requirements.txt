@@ -3,4 +3,4 @@ uvicorn
 pydantic
 fastmcp
 requests
-openenv
+openenv-core>=0.2.0
