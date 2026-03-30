@@ -122,13 +122,13 @@ class MedTriageEnvironment(MCPEnvironment):
             
         return 0.2
 
-    def step(self, action: Action, **kwargs: Any) -> TriageObservation:
+    def _step_impl(self, action: Action, **kwargs: Any) -> TriageObservation:
         """
         Process the agent's triage decision and return a score.
         """
         self._state.step_count += 1
         
-        # If the action is an MCP CallToolAction (from step())
+        # If the action is an MCP CallToolAction
         from openenv.core.env_server.mcp_types import CallToolAction
         
         if isinstance(action, CallToolAction) and action.tool_name == "triage_patient":
@@ -145,8 +145,23 @@ class MedTriageEnvironment(MCPEnvironment):
             )
 
         # Handle non-MCP fallback or invalid actions
-        obs = super().step(action, **kwargs)
-        return obs
+        # For this env, any non-triage_patient action is a no-op or error
+        if self._current_task:
+            patient = self._current_task["patient"]
+            return TriageObservation(
+                **patient,
+                message="Invalid action. Please use the triage_patient tool."
+            )
+        else:
+            return TriageObservation(
+                patient_id="unknown",
+                age=0,
+                gender="unknown",
+                symptoms_text="unknown",
+                vitals={},
+                history=[],
+                message="Invalid action and no task loaded."
+            )
 
     @property
     def state(self) -> State:
