@@ -1,31 +1,34 @@
 # Copyright (c) 2026 Meta Platforms, Inc. and affiliates.
-# Dockerfile for MedTriage Environment
+# Dockerfile for MedTriage Environment - Optimized for Hugging Face
 
 FROM python:3.11-slim
 
+# Set working directory
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies (curl is required for health check)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
+# Pre-install core dependencies to speed up build
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy environment code
-COPY . /app/
+# Copy the rest of the application
+COPY . .
 
-# Install the current package in editable mode to resolve local imports
-RUN pip install -e .
+# Set environment variables
+ENV PYTHONPATH="/app"
+ENV PORT=7860
+ENV HOST=0.0.0.0
 
-# Set PYTHONPATH to include current directory for imports
-ENV PYTHONPATH="/app:$PYTHONPATH"
+# Expose the app port
+EXPOSE 7860
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:7860/health || exit 1
 
-# Run the FastAPI server
+# Start the server
 CMD ["uvicorn", "server.app:app", "--host", "0.0.0.0", "--port", "7860"]
