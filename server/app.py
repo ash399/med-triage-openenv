@@ -70,9 +70,12 @@ async def trigger_baseline():
         if parent_dir not in sys.path:
             sys.path.append(parent_dir)
         from inference import run_baseline
-        
+    
+    # Get current port from environment or default to 8002
+    port = os.environ.get("PORT", "8002")
+    
     # Execute actual baseline
-    scores = run_baseline(base_url="http://localhost:7860")
+    scores = run_baseline(base_url=f"http://localhost:{port}")
     
     return {
         "status": "baseline_completed",
@@ -81,7 +84,9 @@ async def trigger_baseline():
 
 def main():
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=7860)
+    import os
+    port = int(os.environ.get("PORT", 8002))
+    uvicorn.run(app, host="0.0.0.0", port=port)
 
 if __name__ == "__main__":
     main()

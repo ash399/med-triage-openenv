@@ -3,7 +3,7 @@ title: MedTriage OpenEnv
 emoji: 🏥
 sdk: docker
 pinned: false
-app_port: 7860
+app_port: 8002
 tags:
   - openenv
   - healthcare

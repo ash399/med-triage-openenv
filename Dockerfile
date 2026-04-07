@@ -20,15 +20,15 @@ COPY . .
 
 # Set environment variables
 ENV PYTHONPATH="/app"
-ENV PORT=7860
+ENV PORT=8002
 ENV HOST=0.0.0.0
 
 # Expose the app port
-EXPOSE 7860
+EXPOSE 8002
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:7860/health || exit 1
+    CMD curl -f http://localhost:8002/health || exit 1
 
 # Start the server
-CMD ["uvicorn", "server.app:app", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["uvicorn", "server.app:app", "--host", "0.0.0.0", "--port", "8002"]
