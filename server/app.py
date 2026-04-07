@@ -29,6 +29,24 @@ app = create_app(
     env_name="med_triage_env"
 )
 
+# --- Root Endpoint ---
+
+@app.get("/")
+async def root():
+    """Welcome endpoint for Hugging Face Space."""
+    return {
+        "message": "Welcome to MedTriage OpenEnv!",
+        "status": "healthy",
+        "version": "0.1.0",
+        "documentation": "/docs",
+        "endpoints": {
+            "tasks": "/tasks",
+            "health": "/health",
+            "baseline": "/baseline",
+            "grader": "/grader"
+        }
+    }
+
 # --- Additional Hackathon Endpoints ---
 
 @app.get("/tasks")
