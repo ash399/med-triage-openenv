@@ -161,7 +161,7 @@ def run_baseline(base_url: str = "http://localhost:8002"):
         rewards = []
         steps_taken = 0
         success = False
-        final_score = 0.0
+        final_score = 0.01
         
         try:
             with MedTriageEnv(base_url=base_url).sync() as env:
@@ -190,7 +190,7 @@ def run_baseline(base_url: str = "http://localhost:8002"):
                 
                 result = env.step(action)
                 
-                reward = result.reward or 0.1
+                reward = result.reward or 0.01
                 done = result.done
                 rewards.append(reward)
                 
@@ -209,8 +209,8 @@ def run_baseline(base_url: str = "http://localhost:8002"):
         except Exception as e:
             import traceback
             traceback.print_exc()
-            log_step(step=steps_taken, action=None, reward=0.0, done=True, error=str(e))
-            all_scores[task_id] = 0.0
+            log_step(step=steps_taken, action=None, reward=0.01, done=True, error=str(e))
+            all_scores[task_id] = 0.01
             
         log_end(success=success, steps=steps_taken, score=final_score, rewards=rewards)
             

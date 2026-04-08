@@ -27,8 +27,9 @@ class TriageObservation(BaseModel):
     vitals: Dict[str, Any] = Field(default_factory=dict, description="Vitals like temp, bp, hr, spo2")
     history: List[str] = Field(default_factory=list, description="Relevant past conditions or medications")
     done: bool = False
-    reward: float = 0.0
+    reward: float = 0.01
     message: str = ""
+
 
 # 3. State Model (Metadata)
 class TriageState(BaseModel):

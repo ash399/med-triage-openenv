@@ -71,7 +71,7 @@ async def get_grader():
     state = env_instance.state
     # In a real multi-session env, we'd lookup by session_id
     # For a simple demo, we return the last calculated reward if available
-    return {"score": getattr(env_instance, "_last_reward", 0.0)}
+    return {"score": getattr(env_instance, "_last_reward", 0.01)}
 
 @app.get("/baseline")
 async def trigger_baseline():
