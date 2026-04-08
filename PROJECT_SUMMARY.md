@@ -26,7 +26,7 @@ Implemented three specific scenarios with automated graders:
     - `/baseline`: Automated trigger for the inference script.
 
 ### 4. Baseline Inference (`inference.py`)
-- Created a reproducible baseline script that uses medical heuristics to evaluate the environment. It ensures the environment is "solveable" and provides a benchmark score for comparison.
+- Created a reproducible baseline script that leverages the Hackathon's LiteLLM proxy to evaluate the environment. It ensures the environment is "solveable" using a real LLM and serves as a benchmark for API-based agent interactions.
 
 ## 🚀 Technical Improvements & Fixes
 To ensure the project meets the highest submission standards, we performed the following:

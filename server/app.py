@@ -9,14 +9,14 @@ from typing import List, Dict, Any
 
 try:
     from server.triage_environment import MedTriageEnvironment, TASKS
-    from models import TriageAction
+    from models import TriageAction, TriageObservation
 except ImportError:
     try:
         from .triage_environment import MedTriageEnvironment, TASKS
-        from .models import TriageAction
+        from .models import TriageAction, TriageObservation
     except ImportError:
         from triage_environment import MedTriageEnvironment, TASKS
-        from models import TriageAction
+        from models import TriageAction, TriageObservation
 
 # Initialize the environment instance to be used by the app
 env_instance = MedTriageEnvironment()
@@ -25,7 +25,7 @@ env_instance = MedTriageEnvironment()
 app = create_app(
     MedTriageEnvironment, 
     CallToolAction, 
-    CallToolObservation, 
+    TriageObservation, 
     env_name="med_triage_env"
 )
 

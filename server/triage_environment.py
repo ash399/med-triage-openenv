@@ -126,6 +126,9 @@ class MedTriageEnvironment(MCPEnvironment):
         """
         Process the agent's triage decision and return a score.
         """
+        print(f"DEBUG: Received action type: {type(action)}")
+        if hasattr(action, "tool_name"):
+            print(f"DEBUG: tool_name: {action.tool_name}")
         self._state.step_count += 1
         
         # If the action is an MCP CallToolAction
@@ -133,12 +136,18 @@ class MedTriageEnvironment(MCPEnvironment):
         
         if isinstance(action, CallToolAction) and action.tool_name == "triage_patient":
             agent_level = action.arguments.get("level")
-            reward = self._calculate_reward(TriageLevel(agent_level), self._state.ground_truth_level)
+            reward = self._calculate_reward(TriageLevel(int(agent_level)), self._state.ground_truth_level)
             self._last_reward = reward
             
             patient = self._current_task["patient"]
+            # Ensure we return the model type expected by the app
             return TriageObservation(
-                **patient,
+                patient_id=patient["patient_id"],
+                age=patient["age"],
+                gender=patient["gender"],
+                symptoms_text=patient["symptoms_text"],
+                vitals=patient["vitals"],
+                history=patient["history"],
                 done=True,
                 reward=reward,
                 message=f"Episode complete. Agent Triage: {agent_level}. Ground Truth: {self._state.ground_truth_level.value}. Score: {reward}"
