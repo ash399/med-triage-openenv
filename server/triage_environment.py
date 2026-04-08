@@ -103,18 +103,18 @@ class MedTriageEnvironment(MCPEnvironment):
 
     def _calculate_reward(self, agent_level: TriageLevel, ground_truth: TriageLevel) -> float:
         """
-        Scoring Logic (0.0 - 1.0):
-        - Perfect Match: 1.0
-        - Over-triage (too safe): 0.5 (safe but resource heavy)
-        - Minor Under-triage: 0.2 (delay in care)
-        - Major Under-triage (dangerous): 0.0 (unsafe)
+        Scoring Logic (Strictly 0.1 - 0.9 to pass Phase 2 Validation):
+        - Perfect Match: 0.9
+        - Over-triage (too safe): 0.5
+        - Minor Under-triage: 0.2
+        - Major Under-triage (dangerous): 0.1
         """
         if agent_level == ground_truth:
-            return 1.0
+            return 0.9
         
         # Dangerously Under-triaging an Emergency
         if ground_truth == TriageLevel.EMERGENCY and agent_level < TriageLevel.URGENT_CARE:
-            return 0.0
+            return 0.1
             
         # Over-triaging is better than under-triaging in medicine
         if agent_level > ground_truth:

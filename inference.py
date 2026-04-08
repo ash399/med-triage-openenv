@@ -190,7 +190,7 @@ def run_baseline(base_url: str = "http://localhost:8002"):
                 
                 result = env.step(action)
                 
-                reward = result.reward or 0.0
+                reward = result.reward or 0.1
                 done = result.done
                 rewards.append(reward)
                 
@@ -202,7 +202,8 @@ def run_baseline(base_url: str = "http://localhost:8002"):
                 log_step(step=1, action=action_to_log, reward=reward, done=done)
                 
                 final_score = reward
-                success = reward >= 1.0
+                # Updated for strictly 0-1 validation (0.9 is the new max)
+                success = reward >= 0.9
                 all_scores[task_id] = reward
                 
         except Exception as e:
